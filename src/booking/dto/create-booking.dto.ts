@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsString, IsNumber, IsDate, IsOptional, IsObject, ArrayMinSize, ArrayMaxSize, IsArray, ValidateNested } from 'class-validator';
 
-export class FlightDto {
+export class flightDto {
 
   @ApiProperty({default: 'BA'})
   @IsString()
@@ -38,7 +38,7 @@ export class FlightDto {
 
 }
 
-class PaxModel {
+class paxModel {
   @ApiProperty({default: "KAYES FAHIM"})
   @IsString()
   givenName: string;
@@ -54,25 +54,14 @@ class PaxModel {
   @ApiProperty({default: "2011-01-01"})
   dob: Date;
 
-  @ApiProperty({default: "A20932903"})
-  @IsString()
-  document: string;
-
-  @ApiProperty({default: "2032-01-01"})
-  expireDate: Date;
-
-  @ApiProperty({default: "BD"})
-  @IsString()
-  nationality: string;
 }
 
-
-class PassengerInfoModel {
-  @ApiProperty({ type: [PaxModel] })
+class passengerInfoModel {
+  @ApiProperty({ type: [paxModel] })
   @ArrayMinSize(1)
   @ArrayMaxSize(9)
   @IsArray()
-  adult: PaxModel[];
+  adult: paxModel[];
 
   @ApiProperty({default:"{}"})
   @IsOptional()
@@ -87,7 +76,7 @@ class PassengerInfoModel {
   infant: [];
 }
 
-export class ContactDto{
+export class contactDto{
 
   @ApiProperty({default: "abc@gmail.com"})
   email: string;
@@ -97,17 +86,16 @@ export class ContactDto{
 
 }
 
-
 export class CreateBookingDto {
 
-    @ApiProperty({default: ContactDto})
-    contactInfo : ContactDto; 
-    @ApiProperty({default: PassengerInfoModel})
-    passengerInfo: PassengerInfoModel; 
-    @ApiProperty({default: FlightDto})
+    @ApiProperty({default: contactDto})
+    contactInfo : contactDto; 
+    @ApiProperty({default: passengerInfoModel})
+    passengerInfo: passengerInfoModel; 
+    @ApiProperty({default: flightDto})
     @ValidateNested({ each: true })
-    @Type(() => FlightDto)
-    flightInfo : FlightDto;
+    @Type(() => flightDto)
+    flightInfo : flightDto;
 
 }
 

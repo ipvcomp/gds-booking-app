@@ -23,25 +23,20 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Document } from 'mongoose';
-export declare class PaxModelEntity {
+export declare class createPaxModelEntity extends Document {
+    bookingRef: string;
     givenName: string;
     surName: string;
     gender: string;
     dob: Date;
-    document: string;
-    expireDate: Date;
-    nationality: string;
 }
-export declare class PassengerInfoModelEntity {
-    adult: PaxModelEntity[];
-    child: [];
-    infant: [];
-}
-export declare class ContactEntity {
-    email: string;
-    phone: string;
-}
-export declare class FlightEntity {
+export declare const createPaxModelSchema: import("mongoose").Schema<createPaxModelEntity, import("mongoose").Model<createPaxModelEntity, any, any, any, Document<unknown, any, createPaxModelEntity> & createPaxModelEntity & {
+    _id: import("mongoose").Types.ObjectId;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, createPaxModelEntity, Document<unknown, {}, import("mongoose").FlatRecord<createPaxModelEntity>> & import("mongoose").FlatRecord<createPaxModelEntity> & {
+    _id: import("mongoose").Types.ObjectId;
+}>;
+export declare class createFlightEntity extends Document {
+    bookingRef: string;
     carrierCode: string;
     flightNumber: number;
     departureFrom: string;
@@ -51,13 +46,23 @@ export declare class FlightEntity {
     arrivalAirPort: string;
     arrivalTime: Date;
 }
-export declare class CreateBookingEntity extends Document {
-    contactInfo: ContactEntity;
-    passengerInfo: PassengerInfoModelEntity;
-    flightInfo: FlightEntity;
-}
-export declare const CreateBookingSchema: import("mongoose").Schema<CreateBookingEntity, import("mongoose").Model<CreateBookingEntity, any, any, any, Document<unknown, any, CreateBookingEntity> & CreateBookingEntity & {
+export declare const createFlightSchema: import("mongoose").Schema<createFlightEntity, import("mongoose").Model<createFlightEntity, any, any, any, Document<unknown, any, createFlightEntity> & createFlightEntity & {
     _id: import("mongoose").Types.ObjectId;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, CreateBookingEntity, Document<unknown, {}, import("mongoose").FlatRecord<CreateBookingEntity>> & import("mongoose").FlatRecord<CreateBookingEntity> & {
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, createFlightEntity, Document<unknown, {}, import("mongoose").FlatRecord<createFlightEntity>> & import("mongoose").FlatRecord<createFlightEntity> & {
+    _id: import("mongoose").Types.ObjectId;
+}>;
+export declare class createBookingEntity extends Document {
+    bookingRef: string;
+    email: string;
+    phone: string;
+    pnr: string;
+    adult: number;
+    child: number;
+    infant: number;
+    flightDate: Date;
+}
+export declare const createBookingSchema: import("mongoose").Schema<createBookingEntity, import("mongoose").Model<createBookingEntity, any, any, any, Document<unknown, any, createBookingEntity> & createBookingEntity & {
+    _id: import("mongoose").Types.ObjectId;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, createBookingEntity, Document<unknown, {}, import("mongoose").FlatRecord<createBookingEntity>> & import("mongoose").FlatRecord<createBookingEntity> & {
     _id: import("mongoose").Types.ObjectId;
 }>;

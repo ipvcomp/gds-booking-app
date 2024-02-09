@@ -1,4 +1,4 @@
-export declare class FlightDto {
+export declare class flightDto {
     carrierCode: string;
     flightNumber: number;
     departureFrom: string;
@@ -8,27 +8,24 @@ export declare class FlightDto {
     arrivalAirPort: string;
     arrivalTime: Date;
 }
-declare class PaxModel {
+declare class paxModel {
     givenName: string;
     surName: string;
     gender: string;
     dob: Date;
-    document: string;
-    expireDate: Date;
-    nationality: string;
 }
-declare class PassengerInfoModel {
-    adult: PaxModel[];
+declare class passengerInfoModel {
+    adult: paxModel[];
     child: [];
     infant: [];
 }
-export declare class ContactDto {
+export declare class contactDto {
     email: string;
     phone: string;
 }
 export declare class CreateBookingDto {
-    contactInfo: ContactDto;
-    passengerInfo: PassengerInfoModel;
-    flightInfo: FlightDto;
+    contactInfo: contactDto;
+    passengerInfo: passengerInfoModel;
+    flightInfo: flightDto;
 }
 export {};

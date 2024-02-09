@@ -2,8 +2,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema()
-export class PaxModelEntity {
+@Schema({
+  timestamps: true,
+})
+export class createPaxModelEntity extends Document {
+  @Prop({ required: true })
+  bookingRef: string;
+  
   @Prop({ required: true })
   givenName: string;
 
@@ -16,39 +21,19 @@ export class PaxModelEntity {
   @Prop({ required: true })
   dob: Date;
 
-  @Prop({ required: true })
-  document: string;
-
-  @Prop({ required: true })
-  expireDate: Date;
-
-  @Prop({ required: true })
-  nationality: string;
 }
 
-@Schema()
-export class PassengerInfoModelEntity {
-  @Prop({ type: [PaxModelEntity], required: true })
-  adult: PaxModelEntity[];
+export const createPaxModelSchema = SchemaFactory.createForClass(createPaxModelEntity);
 
-  @Prop({ type: [{}], required: true, default: [] })
-  child: [];
 
-  @Prop({ type: [{}], required: true, default: [] })
-  infant: [];
-}
-
-@Schema()
-export class ContactEntity {
-  @Prop({ required: true })
-  email: string;
+@Schema({
+  timestamps: true,
+})
+export class createFlightEntity extends Document {
 
   @Prop({ required: true })
-  phone: string;
-}
+  bookingRef: string;
 
-@Schema()
-export class FlightEntity {
   @Prop({ required: true })
   carrierCode: string;
 
@@ -74,16 +59,38 @@ export class FlightEntity {
   arrivalTime: Date;
 }
 
-@Schema()
-export class CreateBookingEntity extends Document {
-  @Prop({ type: ContactEntity, required: true })
-  contactInfo: ContactEntity;
+export const createFlightSchema = SchemaFactory.createForClass(createFlightEntity);
 
-  @Prop({ type: PassengerInfoModelEntity, required: true })
-  passengerInfo: PassengerInfoModelEntity;
 
-  @Prop({ type: FlightEntity, required: true })
-  flightInfo: FlightEntity;
+@Schema({
+  timestamps: true,
+})
+export class createBookingEntity extends Document {
+
+  @Prop({ required: true })
+  bookingRef: string;
+
+  @Prop({ required: true })
+  email: string;
+
+  @Prop({ required: true })
+  phone: string;
+
+  @Prop({ required: true })
+  pnr: string;
+
+  @Prop({ required: true })
+  adult: number;
+
+  @Prop({ required: true })
+  child: number;
+
+  @Prop({ required: true })
+  infant: number;
+
+  @Prop({ required: true })
+  flightDate: Date;
+
 }
 
-export const CreateBookingSchema = SchemaFactory.createForClass(CreateBookingEntity);
+export const createBookingSchema = SchemaFactory.createForClass(createBookingEntity);

@@ -9,11 +9,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
 const database_providers_1 = require("./database.providers");
+const mongoose_1 = require("@nestjs/mongoose");
+const dotenv = require("dotenv");
+dotenv.config();
 let DatabaseModule = class DatabaseModule {
 };
 exports.DatabaseModule = DatabaseModule;
 exports.DatabaseModule = DatabaseModule = __decorate([
     (0, common_1.Module)({
+        imports: [mongoose_1.MongooseModule.forRoot(process.env.DB)],
         providers: [...database_providers_1.databaseProviders],
         exports: [...database_providers_1.databaseProviders],
     })
