@@ -10,11 +10,16 @@ exports.BookingModule = void 0;
 const common_1 = require("@nestjs/common");
 const booking_service_1 = require("./booking.service");
 const booking_controller_1 = require("./booking.controller");
+const mongoose_1 = require("@nestjs/mongoose");
+const booking_entity_1 = require("./entities/booking.entity");
 let BookingModule = class BookingModule {
 };
 exports.BookingModule = BookingModule;
 exports.BookingModule = BookingModule = __decorate([
     (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: 'Booking', schema: booking_entity_1.CreateBookingSchema }]),
+        ],
         controllers: [booking_controller_1.BookingController],
         providers: [booking_service_1.BookingService],
     })
