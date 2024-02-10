@@ -19,7 +19,7 @@ exports.BookingModule = BookingModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([
-                { name: 'createPaxModelEntity', schema: booking_entity_1.createPaxModelSchema },
+                { name: 'createPaxEntity', schema: booking_entity_1.createPaxModelSchema },
                 { name: 'createFlightEntity', schema: booking_entity_1.createFlightSchema },
                 { name: 'createBookingEntity', schema: booking_entity_1.createBookingSchema }
             ])

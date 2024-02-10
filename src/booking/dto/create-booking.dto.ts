@@ -1,8 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsString, IsNumber, IsDate, IsOptional, IsObject, ArrayMinSize, ArrayMaxSize, IsArray, ValidateNested } from 'class-validator';
+import { IsString, IsNumber, IsDate, IsOptional, IsObject, ArrayMinSize, ArrayMaxSize, IsArray, ValidateNested, IsInt } from 'class-validator';
 
 export class flightDto {
+
+  @ApiProperty({default: '1'})
+  @IsInt()
+  legId: number;
 
   @ApiProperty({default: 'BA'})
   @IsString()
@@ -88,15 +92,19 @@ export class contactDto{
 
 export class CreateBookingDto {
 
-    @ApiProperty({default: contactDto})
-    contactInfo : contactDto; 
-    @ApiProperty({default: passengerInfoModel})
-    passengerInfo: passengerInfoModel; 
-    @ApiProperty({default: flightDto})
-    @ValidateNested({ each: true })
-    @Type(() => flightDto)
-    flightInfo : flightDto;
+  @ApiProperty({default: contactDto})
+  contactInfo : contactDto;
 
+  @ApiProperty({default: passengerInfoModel})
+  passengerInfo: passengerInfoModel; 
+
+  @ApiProperty({type: [flightDto]})
+  @ValidateNested({ each: true })
+  @Type(() => flightDto)
+  @ArrayMinSize(1)
+  @ArrayMaxSize(9)
+  @IsArray()
+  flightInfo : [flightDto[]];
 }
 
   

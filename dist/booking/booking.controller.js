@@ -16,7 +16,6 @@ exports.BookingController = void 0;
 const common_1 = require("@nestjs/common");
 const booking_service_1 = require("./booking.service");
 const create_booking_dto_1 = require("./dto/create-booking.dto");
-const update_booking_dto_1 = require("./dto/update-booking.dto");
 let BookingController = class BookingController {
     constructor(bookingService) {
         this.bookingService = bookingService;
@@ -27,14 +26,8 @@ let BookingController = class BookingController {
     findAll() {
         return this.bookingService.findAll();
     }
-    findOne(id) {
-        return this.bookingService.findOne(+id);
-    }
-    update(id, updateBookingDto) {
-        return this.bookingService.update(+id, updateBookingDto);
-    }
-    remove(id) {
-        return this.bookingService.remove(+id);
+    findOneByPnr(pnr) {
+        return this.bookingService.findOneByPnr(pnr);
     }
 };
 exports.BookingController = BookingController;
@@ -52,27 +45,12 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BookingController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(':pnr'),
+    __param(0, (0, common_1.Param)('pnr')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], BookingController.prototype, "findOne", null);
-__decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_booking_dto_1.UpdateBookingDto]),
-    __metadata("design:returntype", void 0)
-], BookingController.prototype, "update", null);
-__decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], BookingController.prototype, "remove", null);
+], BookingController.prototype, "findOneByPnr", null);
 exports.BookingController = BookingController = __decorate([
     (0, common_1.Controller)('booking'),
     __metadata("design:paramtypes", [booking_service_1.BookingService])

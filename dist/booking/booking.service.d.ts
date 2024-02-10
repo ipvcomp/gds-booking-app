@@ -23,19 +23,26 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { UpdateBookingDto } from './dto/update-booking.dto';
 import { Model } from 'mongoose';
-import { createPaxModelEntity, createFlightEntity, createBookingEntity } from './entities/booking.entity';
+import { createPaxEntity, createFlightEntity, createBookingEntity } from './entities/booking.entity';
 export declare class BookingService {
     private createPaxModelEntityModel;
     private createFlightEntityModel;
     private createBookingEntityModel;
-    constructor(createPaxModelEntityModel: Model<createPaxModelEntity>, createFlightEntityModel: Model<createFlightEntity>, createBookingEntityModel: Model<createBookingEntity>);
+    constructor(createPaxModelEntityModel: Model<createPaxEntity>, createFlightEntityModel: Model<createFlightEntity>, createBookingEntityModel: Model<createBookingEntity>);
     create(createBookingDto: CreateBookingDto): Promise<import("mongoose").Document<unknown, {}, createBookingEntity> & createBookingEntity & {
         _id: import("mongoose").Types.ObjectId;
     }>;
     findAll(): Promise<createBookingEntity[]>;
-    findOne(id: number): string;
-    update(id: number, updateBookingDto: UpdateBookingDto): string;
-    remove(id: number): string;
+    findOneByPnr(pnr: string): Promise<{
+        bookingInfo: import("mongoose").Document<unknown, {}, createBookingEntity> & createBookingEntity & {
+            _id: import("mongoose").Types.ObjectId;
+        };
+        flightInfo: (import("mongoose").Document<unknown, {}, createFlightEntity> & createFlightEntity & {
+            _id: import("mongoose").Types.ObjectId;
+        })[];
+        passengerInfo: (import("mongoose").Document<unknown, {}, createPaxEntity> & createPaxEntity & {
+            _id: import("mongoose").Types.ObjectId;
+        })[];
+    }>;
 }

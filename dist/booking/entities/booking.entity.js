@@ -9,38 +9,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createBookingSchema = exports.createBookingEntity = exports.createFlightSchema = exports.createFlightEntity = exports.createPaxModelSchema = exports.createPaxModelEntity = void 0;
+exports.createBookingSchema = exports.createBookingEntity = exports.createFlightSchema = exports.createFlightEntity = exports.createPaxModelSchema = exports.createPaxEntity = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
-let createPaxModelEntity = class createPaxModelEntity extends mongoose_2.Document {
+let createPaxEntity = class createPaxEntity extends mongoose_2.Document {
 };
-exports.createPaxModelEntity = createPaxModelEntity;
+exports.createPaxEntity = createPaxEntity;
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], createPaxModelEntity.prototype, "bookingRef", void 0);
+], createPaxEntity.prototype, "bookingRef", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], createPaxModelEntity.prototype, "givenName", void 0);
+], createPaxEntity.prototype, "givenName", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], createPaxModelEntity.prototype, "surName", void 0);
+], createPaxEntity.prototype, "surName", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], createPaxModelEntity.prototype, "gender", void 0);
+], createPaxEntity.prototype, "gender", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Date)
-], createPaxModelEntity.prototype, "dob", void 0);
-exports.createPaxModelEntity = createPaxModelEntity = __decorate([
+], createPaxEntity.prototype, "dob", void 0);
+exports.createPaxEntity = createPaxEntity = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true,
     })
-], createPaxModelEntity);
-exports.createPaxModelSchema = mongoose_1.SchemaFactory.createForClass(createPaxModelEntity);
+], createPaxEntity);
+exports.createPaxModelSchema = mongoose_1.SchemaFactory.createForClass(createPaxEntity);
 let createFlightEntity = class createFlightEntity extends mongoose_2.Document {
 };
 exports.createFlightEntity = createFlightEntity;
@@ -105,6 +105,10 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], createBookingEntity.prototype, "pnr", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], createBookingEntity.prototype, "status", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Number)

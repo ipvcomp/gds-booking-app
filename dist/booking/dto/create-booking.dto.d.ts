@@ -1,4 +1,5 @@
 export declare class flightDto {
+    legId: number;
     carrierCode: string;
     flightNumber: number;
     departureFrom: string;
@@ -26,6 +27,6 @@ export declare class contactDto {
 export declare class CreateBookingDto {
     contactInfo: contactDto;
     passengerInfo: passengerInfoModel;
-    flightInfo: flightDto;
+    flightInfo: [flightDto[]];
 }
 export {};

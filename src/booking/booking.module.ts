@@ -7,7 +7,7 @@ import { createPaxModelSchema, createFlightSchema, createBookingSchema } from '.
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: 'createPaxModelEntity', schema: createPaxModelSchema },
+      { name: 'createPaxEntity', schema: createPaxModelSchema },
       { name: 'createFlightEntity', schema: createFlightSchema },
       { name: 'createBookingEntity', schema: createBookingSchema }
       ])],

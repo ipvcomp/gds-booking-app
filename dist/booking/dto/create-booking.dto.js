@@ -17,6 +17,11 @@ class flightDto {
 }
 exports.flightDto = flightDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({ default: '1' }),
+    (0, class_validator_1.IsInt)(),
+    __metadata("design:type", Number)
+], flightDto.prototype, "legId", void 0);
+__decorate([
     (0, swagger_1.ApiProperty)({ default: 'BA' }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
@@ -123,9 +128,12 @@ __decorate([
     __metadata("design:type", passengerInfoModel)
 ], CreateBookingDto.prototype, "passengerInfo", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ default: flightDto }),
+    (0, swagger_1.ApiProperty)({ type: [flightDto] }),
     (0, class_validator_1.ValidateNested)({ each: true }),
     (0, class_transformer_1.Type)(() => flightDto),
-    __metadata("design:type", flightDto)
+    (0, class_validator_1.ArrayMinSize)(1),
+    (0, class_validator_1.ArrayMaxSize)(9),
+    (0, class_validator_1.IsArray)(),
+    __metadata("design:type", Array)
 ], CreateBookingDto.prototype, "flightInfo", void 0);
 //# sourceMappingURL=create-booking.dto.js.map

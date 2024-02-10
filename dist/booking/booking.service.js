@@ -24,13 +24,25 @@ let BookingService = class BookingService {
         this.createBookingEntityModel = createBookingEntityModel;
     }
     async create(createBookingDto) {
-        const paxData = {
-            givenName: 'John',
-            surName: 'Doe',
-            gender: 'Male',
-            dob: new Date('1990-01-01'),
+        const lastBookingRef = await this.createBookingEntityModel
+            .findOne({}, { bookingRef: true, _id: false })
+            .sort({ createdAt: -1 })
+            .limit(1);
+        const bookingRef = `B${parseInt(lastBookingRef?.bookingRef.replace('B', ''), 10) + 1}`;
+        const bookingData = {
+            bookingRef: bookingRef,
+            email: createBookingDto.contactInfo.email,
+            phone: createBookingDto.contactInfo.phone,
+            pnr: generateRandomString(6),
+            status: 'Hold',
+            adult: 2,
+            child: 1,
+            infant: 0,
+            flightDate: new Date('2024-01-20'),
         };
+        const createBookingEntityDocument = await this.createBookingEntityModel.create(bookingData);
         const flightData = {
+            bookingRef: bookingRef,
             carrierCode: 'XYZ',
             flightNumber: 123,
             departureFrom: 'ABC',
@@ -40,37 +52,46 @@ let BookingService = class BookingService {
             arrivalAirPort: 'Airport2',
             arrivalTime: new Date('2022-01-01T12:00:00'),
         };
-        const bookingData = {
-            bookingRef: 'ABC123',
-            email: 'john.doe@example.com',
-            phone: '+123456789',
-            pnr: 'XYZ789',
-            adult: 2,
-            child: 1,
-            infant: 0,
-            flightDate: new Date('2022-01-01'),
+        await this.createFlightEntityModel.create(flightData);
+        const paxData = {
+            bookingRef: bookingRef,
+            givenName: 'John',
+            surName: 'Doe',
+            gender: 'Male',
+            dob: new Date('1990-01-01'),
         };
-        const createBookingEntityDocument = await this.createBookingEntityModel.create(bookingData);
+        await this.createPaxModelEntityModel.create(paxData);
         return createBookingEntityDocument;
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                result += characters.charAt(randomIndex);
+            }
+            return result;
+        }
     }
     async findAll() {
         const createBookingEntityDocument = await this.createBookingEntityModel.find();
         return createBookingEntityDocument;
     }
-    findOne(id) {
-        return `This action returns a #${id} booking`;
-    }
-    update(id, updateBookingDto) {
-        return `This action updates a #${id} booking`;
-    }
-    remove(id) {
-        return `This action removes a #${id} booking`;
+    async findOneByPnr(pnr) {
+        const bookingEntityDocument = await this.createBookingEntityModel.findOne({ pnr: pnr });
+        const passengerEntityDocument = await this.createPaxModelEntityModel.find({ bookingRef: bookingEntityDocument.bookingRef });
+        const flightEntityDocument = await this.createFlightEntityModel.find({ bookingRef: bookingEntityDocument.bookingRef });
+        const bookingDetails = {
+            bookingInfo: bookingEntityDocument,
+            flightInfo: flightEntityDocument,
+            passengerInfo: passengerEntityDocument
+        };
+        return bookingDetails;
     }
 };
 exports.BookingService = BookingService;
 exports.BookingService = BookingService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(booking_entity_1.createPaxModelEntity.name)),
+    __param(0, (0, mongoose_1.InjectModel)(booking_entity_1.createPaxEntity.name)),
     __param(1, (0, mongoose_1.InjectModel)(booking_entity_1.createFlightEntity.name)),
     __param(2, (0, mongoose_1.InjectModel)(booking_entity_1.createBookingEntity.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,

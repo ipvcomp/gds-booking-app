@@ -23,16 +23,16 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Document } from 'mongoose';
-export declare class createPaxModelEntity extends Document {
+export declare class createPaxEntity extends Document {
     bookingRef: string;
     givenName: string;
     surName: string;
     gender: string;
     dob: Date;
 }
-export declare const createPaxModelSchema: import("mongoose").Schema<createPaxModelEntity, import("mongoose").Model<createPaxModelEntity, any, any, any, Document<unknown, any, createPaxModelEntity> & createPaxModelEntity & {
+export declare const createPaxModelSchema: import("mongoose").Schema<createPaxEntity, import("mongoose").Model<createPaxEntity, any, any, any, Document<unknown, any, createPaxEntity> & createPaxEntity & {
     _id: import("mongoose").Types.ObjectId;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, createPaxModelEntity, Document<unknown, {}, import("mongoose").FlatRecord<createPaxModelEntity>> & import("mongoose").FlatRecord<createPaxModelEntity> & {
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, createPaxEntity, Document<unknown, {}, import("mongoose").FlatRecord<createPaxEntity>> & import("mongoose").FlatRecord<createPaxEntity> & {
     _id: import("mongoose").Types.ObjectId;
 }>;
 export declare class createFlightEntity extends Document {
@@ -56,6 +56,7 @@ export declare class createBookingEntity extends Document {
     email: string;
     phone: string;
     pnr: string;
+    status: string;
     adult: number;
     child: number;
     infant: number;

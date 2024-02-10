@@ -5,10 +5,10 @@ import { Document } from 'mongoose';
 @Schema({
   timestamps: true,
 })
-export class createPaxModelEntity extends Document {
+export class createPaxEntity extends Document {
   @Prop({ required: true })
   bookingRef: string;
-  
+
   @Prop({ required: true })
   givenName: string;
 
@@ -23,7 +23,7 @@ export class createPaxModelEntity extends Document {
 
 }
 
-export const createPaxModelSchema = SchemaFactory.createForClass(createPaxModelEntity);
+export const createPaxModelSchema = SchemaFactory.createForClass(createPaxEntity);
 
 
 @Schema({
@@ -78,6 +78,9 @@ export class createBookingEntity extends Document {
 
   @Prop({ required: true })
   pnr: string;
+
+  @Prop({ required: true })
+  status: string;
 
   @Prop({ required: true })
   adult: number;
