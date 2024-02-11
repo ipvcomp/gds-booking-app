@@ -136,8 +136,8 @@ export class BookingService {
 
   async findOneByPnr(pnr : string){
     const bookingEntityDocument = await this.createBookingEntityModel.findOne({pnr: pnr}, { __v: false});
-    const passengerEntityDocument = await this.createPaxModelEntityModel.find({bookingRef: bookingEntityDocument.bookingRef}, { __v: false, _id: false});
-    const flightEntityDocument = await this.createFlightEntityModel.find({bookingRef: bookingEntityDocument.bookingRef}, { __v: false, _id: false});
+    const passengerEntityDocument = await this.createPaxModelEntityModel.find({bookingRef: bookingEntityDocument.bookingRef}, { __v: false, _id: false, createdAt: false, updatedAt: false});
+    const flightEntityDocument = await this.createFlightEntityModel.find({bookingRef: bookingEntityDocument.bookingRef}, { __v: false, _id: false, createdAt: false, updatedAt: false});
 
     const bookingDetails = {
       bookingInfo: bookingEntityDocument,
