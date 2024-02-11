@@ -125,9 +125,9 @@ let BookingService = class BookingService {
         return createBookingEntityDocument;
     }
     async findOneByPnr(pnr) {
-        const bookingEntityDocument = await this.createBookingEntityModel.findOne({ pnr: pnr });
-        const passengerEntityDocument = await this.createPaxModelEntityModel.find({ bookingRef: bookingEntityDocument.bookingRef });
-        const flightEntityDocument = await this.createFlightEntityModel.find({ bookingRef: bookingEntityDocument.bookingRef });
+        const bookingEntityDocument = await this.createBookingEntityModel.findOne({ pnr: pnr }, { __v: false });
+        const passengerEntityDocument = await this.createPaxModelEntityModel.find({ bookingRef: bookingEntityDocument.bookingRef }, { __v: false, _id: false });
+        const flightEntityDocument = await this.createFlightEntityModel.find({ bookingRef: bookingEntityDocument.bookingRef }, { __v: false, _id: false });
         const bookingDetails = {
             bookingInfo: bookingEntityDocument,
             flightInfo: flightEntityDocument,
