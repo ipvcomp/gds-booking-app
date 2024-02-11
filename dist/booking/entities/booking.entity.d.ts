@@ -28,7 +28,8 @@ export declare class createPaxEntity extends Document {
     givenName: string;
     surName: string;
     gender: string;
-    dob: Date;
+    type: string;
+    dob: string;
 }
 export declare const createPaxModelSchema: import("mongoose").Schema<createPaxEntity, import("mongoose").Model<createPaxEntity, any, any, any, Document<unknown, any, createPaxEntity> & createPaxEntity & {
     _id: import("mongoose").Types.ObjectId;
@@ -36,15 +37,16 @@ export declare const createPaxModelSchema: import("mongoose").Schema<createPaxEn
     _id: import("mongoose").Types.ObjectId;
 }>;
 export declare class createFlightEntity extends Document {
+    legId: number;
     bookingRef: string;
     carrierCode: string;
     flightNumber: number;
     departureFrom: string;
     departureAirPort: string;
-    departureTime: Date;
+    departureTime: string;
     arrivalTo: string;
     arrivalAirPort: string;
-    arrivalTime: Date;
+    arrivalTime: string;
 }
 export declare const createFlightSchema: import("mongoose").Schema<createFlightEntity, import("mongoose").Model<createFlightEntity, any, any, any, Document<unknown, any, createFlightEntity> & createFlightEntity & {
     _id: import("mongoose").Types.ObjectId;
@@ -60,7 +62,7 @@ export declare class createBookingEntity extends Document {
     adult: number;
     child: number;
     infant: number;
-    flightDate: Date;
+    flightDate: string;
 }
 export declare const createBookingSchema: import("mongoose").Schema<createBookingEntity, import("mongoose").Model<createBookingEntity, any, any, any, Document<unknown, any, createBookingEntity> & createBookingEntity & {
     _id: import("mongoose").Types.ObjectId;

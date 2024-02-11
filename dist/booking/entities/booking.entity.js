@@ -33,17 +33,26 @@ __decorate([
 ], createPaxEntity.prototype, "gender", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
+], createPaxEntity.prototype, "type", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
 ], createPaxEntity.prototype, "dob", void 0);
 exports.createPaxEntity = createPaxEntity = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true,
+        collection: 'bookings'
     })
 ], createPaxEntity);
 exports.createPaxModelSchema = mongoose_1.SchemaFactory.createForClass(createPaxEntity);
 let createFlightEntity = class createFlightEntity extends mongoose_2.Document {
 };
 exports.createFlightEntity = createFlightEntity;
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", Number)
+], createFlightEntity.prototype, "legId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
@@ -66,7 +75,7 @@ __decorate([
 ], createFlightEntity.prototype, "departureAirPort", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], createFlightEntity.prototype, "departureTime", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
@@ -78,11 +87,12 @@ __decorate([
 ], createFlightEntity.prototype, "arrivalAirPort", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], createFlightEntity.prototype, "arrivalTime", void 0);
 exports.createFlightEntity = createFlightEntity = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true,
+        collection: 'flights'
     })
 ], createFlightEntity);
 exports.createFlightSchema = mongoose_1.SchemaFactory.createForClass(createFlightEntity);
@@ -123,11 +133,12 @@ __decorate([
 ], createBookingEntity.prototype, "infant", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], createBookingEntity.prototype, "flightDate", void 0);
 exports.createBookingEntity = createBookingEntity = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true,
+        collection: 'passengers'
     })
 ], createBookingEntity);
 exports.createBookingSchema = mongoose_1.SchemaFactory.createForClass(createBookingEntity);

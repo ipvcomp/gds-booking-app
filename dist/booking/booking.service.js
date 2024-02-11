@@ -24,43 +24,91 @@ let BookingService = class BookingService {
         this.createBookingEntityModel = createBookingEntityModel;
     }
     async create(createBookingDto) {
+        const flightList = createBookingDto.flightInfo;
+        console.log(flightList);
+        const passengerInfo = createBookingDto.passengerInfo;
+        const adultList = passengerInfo.adult;
+        const childList = passengerInfo.child;
+        const infantList = passengerInfo.infant;
         const lastBookingRef = await this.createBookingEntityModel
             .findOne({}, { bookingRef: true, _id: false })
             .sort({ createdAt: -1 })
             .limit(1);
-        const bookingRef = `B${parseInt(lastBookingRef?.bookingRef.replace('B', ''), 10) + 1}`;
+        let bookingRef = '';
+        if (lastBookingRef) {
+            bookingRef = `B${parseInt(lastBookingRef?.bookingRef.replace('B', ''), 10) + 1}`;
+        }
+        else {
+            bookingRef = 'B1000';
+        }
         const bookingData = {
             bookingRef: bookingRef,
             email: createBookingDto.contactInfo.email,
             phone: createBookingDto.contactInfo.phone,
             pnr: generateRandomString(6),
             status: 'Hold',
-            adult: 2,
-            child: 1,
-            infant: 0,
-            flightDate: new Date('2024-01-20'),
+            adult: adultList?.length || 1,
+            child: childList?.length || 0,
+            infant: infantList?.length || 0,
+            flightDate: (flightList[0].departureTime).slice(0, 10),
         };
         const createBookingEntityDocument = await this.createBookingEntityModel.create(bookingData);
-        const flightData = {
-            bookingRef: bookingRef,
-            carrierCode: 'XYZ',
-            flightNumber: 123,
-            departureFrom: 'ABC',
-            departureAirPort: 'Airport1',
-            departureTime: new Date('2022-01-01T10:00:00'),
-            arrivalTo: 'DEF',
-            arrivalAirPort: 'Airport2',
-            arrivalTime: new Date('2022-01-01T12:00:00'),
-        };
-        await this.createFlightEntityModel.create(flightData);
-        const paxData = {
-            bookingRef: bookingRef,
-            givenName: 'John',
-            surName: 'Doe',
-            gender: 'Male',
-            dob: new Date('1990-01-01'),
-        };
-        await this.createPaxModelEntityModel.create(paxData);
+        let i = 0;
+        for (const flight of flightList) {
+            i++;
+            const flightData = {
+                bookingRef: bookingRef,
+                legId: i,
+                carrierCode: flight.carrierCode,
+                flightNumber: flight.flightNumber,
+                departureFrom: flight.departureFrom,
+                departureAirPort: flight.departureAirPort,
+                departureTime: flight.departureTime,
+                arrivalTo: flight.arrivalTo,
+                arrivalAirPort: flight.arrivalAirPort,
+                arrivalTime: flight.arrivalTime,
+            };
+            await this.createFlightEntityModel.create(flightData);
+        }
+        if (adultList.length > 0) {
+            for (const adultPax of adultList) {
+                const paxData = {
+                    bookingRef: bookingRef,
+                    givenName: adultPax.givenName,
+                    surName: adultPax.surName,
+                    gender: adultPax.gender,
+                    dob: adultPax.dob,
+                    type: 'ADT'
+                };
+                await this.createPaxModelEntityModel.create(paxData);
+            }
+        }
+        if (childList.length > 0) {
+            for (const childPax of childList) {
+                const paxData = {
+                    bookingRef: bookingRef,
+                    givenName: childPax.givenName,
+                    surName: childPax.surName,
+                    gender: childPax.gender,
+                    dob: childPax.dob,
+                    type: 'CNN'
+                };
+                await this.createPaxModelEntityModel.create(paxData);
+            }
+        }
+        if (infantList.length > 0) {
+            for (const infantPax of infantList) {
+                const paxData = {
+                    bookingRef: bookingRef,
+                    givenName: infantPax.givenName,
+                    surName: infantPax.surName,
+                    gender: infantPax.gender,
+                    dob: infantPax.dob,
+                    type: 'INF'
+                };
+                await this.createPaxModelEntityModel.create(paxData);
+            }
+        }
         return createBookingEntityDocument;
         function generateRandomString(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

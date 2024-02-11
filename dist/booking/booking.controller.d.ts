@@ -25,16 +25,15 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { BookingService } from './booking.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { createBookingEntity } from './entities/booking.entity';
 export declare class BookingController {
     private readonly bookingService;
     constructor(bookingService: BookingService);
-    create(createBookingDto: CreateBookingDto): Promise<import("mongoose").Document<unknown, {}, createBookingEntity> & createBookingEntity & {
+    create(createBookingDto: CreateBookingDto): Promise<import("mongoose").Document<unknown, {}, import("./entities/booking.entity").createBookingEntity> & import("./entities/booking.entity").createBookingEntity & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    findAll(): Promise<createBookingEntity[]>;
+    findAll(): Promise<import("./entities/booking.entity").createBookingEntity[]>;
     findOneByPnr(pnr: string): Promise<{
-        bookingInfo: import("mongoose").Document<unknown, {}, createBookingEntity> & createBookingEntity & {
+        bookingInfo: import("mongoose").Document<unknown, {}, import("./entities/booking.entity").createBookingEntity> & import("./entities/booking.entity").createBookingEntity & {
             _id: import("mongoose").Types.ObjectId;
         };
         flightInfo: (import("mongoose").Document<unknown, {}, import("./entities/booking.entity").createFlightEntity> & import("./entities/booking.entity").createFlightEntity & {

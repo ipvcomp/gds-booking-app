@@ -1,13 +1,12 @@
 export declare class flightDto {
-    legId: number;
     carrierCode: string;
     flightNumber: number;
     departureFrom: string;
     departureAirPort: string;
-    departureTime: Date;
+    departureTime: string;
     arrivalTo: string;
     arrivalAirPort: string;
-    arrivalTime: Date;
+    arrivalTime: string;
 }
 declare class paxModel {
     givenName: string;
@@ -17,8 +16,8 @@ declare class paxModel {
 }
 declare class passengerInfoModel {
     adult: paxModel[];
-    child: [];
-    infant: [];
+    child: paxModel[];
+    infant: paxModel[];
 }
 export declare class contactDto {
     email: string;
@@ -27,6 +26,6 @@ export declare class contactDto {
 export declare class CreateBookingDto {
     contactInfo: contactDto;
     passengerInfo: passengerInfoModel;
-    flightInfo: [flightDto[]];
+    flightInfo: flightDto[];
 }
 export {};

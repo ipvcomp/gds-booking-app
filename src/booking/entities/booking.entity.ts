@@ -4,7 +4,9 @@ import { Document } from 'mongoose';
 
 @Schema({
   timestamps: true,
+  collection: 'bookings'
 })
+
 export class createPaxEntity extends Document {
   @Prop({ required: true })
   bookingRef: string;
@@ -19,7 +21,11 @@ export class createPaxEntity extends Document {
   gender: string;
 
   @Prop({ required: true })
-  dob: Date;
+  type: string;
+
+  @Prop({ required: true })
+  dob: string;
+
 
 }
 
@@ -28,8 +34,12 @@ export const createPaxModelSchema = SchemaFactory.createForClass(createPaxEntity
 
 @Schema({
   timestamps: true,
+  collection: 'flights'
 })
 export class createFlightEntity extends Document {
+
+  @Prop({ required: true })
+  legId: number;
 
   @Prop({ required: true })
   bookingRef: string;
@@ -47,7 +57,7 @@ export class createFlightEntity extends Document {
   departureAirPort: string;
 
   @Prop({ required: true })
-  departureTime: Date;
+  departureTime: string;
 
   @Prop({ required: true })
   arrivalTo: string;
@@ -56,7 +66,7 @@ export class createFlightEntity extends Document {
   arrivalAirPort: string;
 
   @Prop({ required: true })
-  arrivalTime: Date;
+  arrivalTime: string;
 }
 
 export const createFlightSchema = SchemaFactory.createForClass(createFlightEntity);
@@ -64,6 +74,7 @@ export const createFlightSchema = SchemaFactory.createForClass(createFlightEntit
 
 @Schema({
   timestamps: true,
+  collection: 'passengers'
 })
 export class createBookingEntity extends Document {
 
@@ -92,7 +103,7 @@ export class createBookingEntity extends Document {
   infant: number;
 
   @Prop({ required: true })
-  flightDate: Date;
+  flightDate: string;
 
 }
 

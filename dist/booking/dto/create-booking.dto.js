@@ -17,11 +17,6 @@ class flightDto {
 }
 exports.flightDto = flightDto;
 __decorate([
-    (0, swagger_1.ApiProperty)({ default: '1' }),
-    (0, class_validator_1.IsInt)(),
-    __metadata("design:type", Number)
-], flightDto.prototype, "legId", void 0);
-__decorate([
     (0, swagger_1.ApiProperty)({ default: 'BA' }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
@@ -42,9 +37,9 @@ __decorate([
     __metadata("design:type", String)
 ], flightDto.prototype, "departureAirPort", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ default: Date.now() }),
-    (0, class_validator_1.IsDate)(),
-    __metadata("design:type", Date)
+    (0, swagger_1.ApiProperty)({ default: "2024-04-12T12:40:00" }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
 ], flightDto.prototype, "departureTime", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ default: 'JFK' }),
@@ -57,9 +52,9 @@ __decorate([
     __metadata("design:type", String)
 ], flightDto.prototype, "arrivalAirPort", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ default: Date.now() }),
-    (0, class_validator_1.IsDate)(),
-    __metadata("design:type", Date)
+    (0, swagger_1.ApiProperty)({ default: "2024-04-12T02:40:00" }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
 ], flightDto.prototype, "arrivalTime", void 0);
 class paxModel {
 }
@@ -92,14 +87,14 @@ __decorate([
     __metadata("design:type", Array)
 ], passengerInfoModel.prototype, "adult", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ default: "{}" }),
+    (0, swagger_1.ApiProperty)({ type: [paxModel] }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.ArrayMinSize)(1),
     (0, class_validator_1.ArrayMaxSize)(8),
     __metadata("design:type", Array)
 ], passengerInfoModel.prototype, "child", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ default: "{}" }),
+    (0, swagger_1.ApiProperty)({ type: [paxModel] }),
     (0, class_validator_1.ArrayMinSize)(1),
     (0, class_validator_1.ArrayMaxSize)(4),
     (0, class_validator_1.IsOptional)(),

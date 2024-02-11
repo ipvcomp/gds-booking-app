@@ -4,10 +4,6 @@ import { IsString, IsNumber, IsDate, IsOptional, IsObject, ArrayMinSize, ArrayMa
 
 export class flightDto {
 
-  @ApiProperty({default: '1'})
-  @IsInt()
-  legId: number;
-
   @ApiProperty({default: 'BA'})
   @IsString()
   carrierCode: string;
@@ -24,9 +20,9 @@ export class flightDto {
   @IsString()
   departureAirPort: string;
 
-  @ApiProperty({default: Date.now()})
-  @IsDate()
-  departureTime: Date;
+  @ApiProperty({default: "2024-04-12T12:40:00"})
+  @IsString()
+  departureTime: string;
 
   @ApiProperty({default: 'JFK'})
   @IsString()
@@ -36,9 +32,9 @@ export class flightDto {
   @IsString()
   arrivalAirPort: string;
 
-  @ApiProperty({default: Date.now()})
-  @IsDate()
-  arrivalTime: Date;
+  @ApiProperty({default: "2024-04-12T02:40:00"})
+  @IsString()
+  arrivalTime: string;
 
 }
 
@@ -67,17 +63,17 @@ class passengerInfoModel {
   @IsArray()
   adult: paxModel[];
 
-  @ApiProperty({default:"{}"})
+  @ApiProperty({type: [paxModel]})
   @IsOptional()
   @ArrayMinSize(1)
   @ArrayMaxSize(8)
-  child: [];
+  child: paxModel[];
 
-  @ApiProperty({default:"{}"})
+  @ApiProperty({type: [paxModel]})
   @ArrayMinSize(1)
   @ArrayMaxSize(4)
   @IsOptional()
-  infant: [];
+  infant: paxModel[];
 }
 
 export class contactDto{
@@ -98,13 +94,13 @@ export class CreateBookingDto {
   @ApiProperty({default: passengerInfoModel})
   passengerInfo: passengerInfoModel; 
 
-  @ApiProperty({type: [flightDto]})
+  @ApiProperty({ type: [flightDto] })
   @ValidateNested({ each: true })
   @Type(() => flightDto)
   @ArrayMinSize(1)
   @ArrayMaxSize(9)
   @IsArray()
-  flightInfo : [flightDto[]];
+  flightInfo: flightDto[];
 }
 
   
