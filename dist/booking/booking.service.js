@@ -43,6 +43,7 @@ let BookingService = class BookingService {
         }
         const bookingData = {
             bookingRef: bookingRef,
+            PCC: '0SK0',
             email: createBookingDto.contactInfo.email,
             phone: createBookingDto.contactInfo.phone,
             pnr: generateRandomString(6),
@@ -50,7 +51,7 @@ let BookingService = class BookingService {
             adult: adultList?.length || 1,
             child: childList?.length || 0,
             infant: infantList?.length || 0,
-            flightDate: (flightList[0].departureTime).slice(0, 10),
+            flightDate: (flightList[0].departureDateLocal).slice(0, 10),
         };
         const createBookingEntityDocument = await this.createBookingEntityModel.create(bookingData);
         let i = 0;
@@ -63,10 +64,12 @@ let BookingService = class BookingService {
                 flightNumber: flight.flightNumber,
                 departureFrom: flight.departureFrom,
                 departureAirPort: flight.departureAirPort,
-                departureTime: flight.departureTime,
+                departureDateLocal: flight.departureDateLocal,
+                departureTimeLocal: flight.departureTimeLocal,
                 arrivalTo: flight.arrivalTo,
                 arrivalAirPort: flight.arrivalAirPort,
-                arrivalTime: flight.arrivalTime,
+                arrivalDateLocal: flight.arrivalDateLocal,
+                arrivalTimeLocal: flight.arrivalTimeLocal,
             };
             await this.createFlightEntityModel.create(flightData);
         }
@@ -126,14 +129,27 @@ let BookingService = class BookingService {
     }
     async findOneByPnr(pnr) {
         const bookingEntityDocument = await this.createBookingEntityModel.findOne({ pnr: pnr }, { __v: false });
-        const passengerEntityDocument = await this.createPaxModelEntityModel.find({ bookingRef: bookingEntityDocument.bookingRef }, { __v: false, _id: false, createdAt: false, updatedAt: false });
-        const flightEntityDocument = await this.createFlightEntityModel.find({ bookingRef: bookingEntityDocument.bookingRef }, { __v: false, _id: false, createdAt: false, updatedAt: false });
-        const bookingDetails = {
-            bookingInfo: bookingEntityDocument,
-            flightInfo: flightEntityDocument,
-            passengerInfo: passengerEntityDocument
+        const passengerEntityDocument = await this.createPaxModelEntityModel.find({ bookingRef: bookingEntityDocument.bookingRef }, { bookingRef: false, __v: false, _id: false, createdAt: false, updatedAt: false });
+        const flightEntityDocument = await this.createFlightEntityModel.find({ bookingRef: bookingEntityDocument.bookingRef }, { bookingRef: false, __v: false, _id: false, createdAt: false, updatedAt: false });
+        const bookingData = {
+            "pnrData": [
+                {
+                    "_id": bookingEntityDocument.id,
+                    "bookingInfo": {
+                        "bookingReference": bookingEntityDocument.bookingRef,
+                        "bookingStatus": bookingEntityDocument.status,
+                        "bookingPcc": bookingEntityDocument.PCC,
+                    },
+                    "contactInfo": {
+                        "email": bookingEntityDocument.email,
+                        "phone": bookingEntityDocument.phone
+                    },
+                    "passengerInfo": passengerEntityDocument,
+                    "flightInfo": flightEntityDocument
+                }
+            ]
         };
-        return bookingDetails;
+        return bookingData;
     }
 };
 exports.BookingService = BookingService;

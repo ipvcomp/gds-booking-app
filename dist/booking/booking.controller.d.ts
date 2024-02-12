@@ -33,14 +33,23 @@ export declare class BookingController {
     }>;
     findAll(): Promise<import("./entities/booking.entity").createBookingEntity[]>;
     findOneByPnr(pnr: string): Promise<{
-        bookingInfo: import("mongoose").Document<unknown, {}, import("./entities/booking.entity").createBookingEntity> & import("./entities/booking.entity").createBookingEntity & {
-            _id: import("mongoose").Types.ObjectId;
-        };
-        flightInfo: (import("mongoose").Document<unknown, {}, import("./entities/booking.entity").createFlightEntity> & import("./entities/booking.entity").createFlightEntity & {
-            _id: import("mongoose").Types.ObjectId;
-        })[];
-        passengerInfo: (import("mongoose").Document<unknown, {}, import("./entities/booking.entity").createPaxEntity> & import("./entities/booking.entity").createPaxEntity & {
-            _id: import("mongoose").Types.ObjectId;
-        })[];
+        pnrData: {
+            _id: any;
+            bookingInfo: {
+                bookingReference: string;
+                bookingStatus: string;
+                bookingPcc: string;
+            };
+            contactInfo: {
+                email: string;
+                phone: string;
+            };
+            passengerInfo: (import("mongoose").Document<unknown, {}, import("./entities/booking.entity").createPaxEntity> & import("./entities/booking.entity").createPaxEntity & {
+                _id: import("mongoose").Types.ObjectId;
+            })[];
+            flightInfo: (import("mongoose").Document<unknown, {}, import("./entities/booking.entity").createFlightEntity> & import("./entities/booking.entity").createFlightEntity & {
+                _id: import("mongoose").Types.ObjectId;
+            })[];
+        }[];
     }>;
 }

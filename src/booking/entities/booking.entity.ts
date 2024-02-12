@@ -57,7 +57,10 @@ export class createFlightEntity extends Document {
   departureAirPort: string;
 
   @Prop({ required: true })
-  departureTime: string;
+  departureDateLocal: string;
+
+  @Prop({ required: true })
+  departureTimeLocal: string;
 
   @Prop({ required: true })
   arrivalTo: string;
@@ -66,7 +69,10 @@ export class createFlightEntity extends Document {
   arrivalAirPort: string;
 
   @Prop({ required: true })
-  arrivalTime: string;
+  arrivalDateLocal: string;
+
+  @Prop({ required: true })
+  arrivalTimeLocal: string;
 }
 
 export const createFlightSchema = SchemaFactory.createForClass(createFlightEntity);
@@ -80,6 +86,9 @@ export class createBookingEntity extends Document {
 
   @Prop({ required: true })
   bookingRef: string;
+
+  @Prop({ required: true })
+  PCC: string;
 
   @Prop({ required: true })
   email: string;

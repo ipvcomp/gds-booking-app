@@ -37,10 +37,15 @@ __decorate([
     __metadata("design:type", String)
 ], flightDto.prototype, "departureAirPort", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ default: "2024-04-12T12:40:00" }),
+    (0, swagger_1.ApiProperty)({ default: "2024-04-12" }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], flightDto.prototype, "departureTime", void 0);
+], flightDto.prototype, "departureDateLocal", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ default: "12:40" }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], flightDto.prototype, "departureTimeLocal", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ default: 'JFK' }),
     (0, class_validator_1.IsString)(),
@@ -52,10 +57,15 @@ __decorate([
     __metadata("design:type", String)
 ], flightDto.prototype, "arrivalAirPort", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ default: "2024-04-12T02:40:00" }),
+    (0, swagger_1.ApiProperty)({ default: "2024-04-12" }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], flightDto.prototype, "arrivalTime", void 0);
+], flightDto.prototype, "arrivalDateLocal", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ default: "02:40" }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], flightDto.prototype, "arrivalTimeLocal", void 0);
 class paxModel {
 }
 __decorate([

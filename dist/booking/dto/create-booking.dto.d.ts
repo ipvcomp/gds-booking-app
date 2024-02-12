@@ -3,10 +3,12 @@ export declare class flightDto {
     flightNumber: number;
     departureFrom: string;
     departureAirPort: string;
-    departureTime: string;
+    departureDateLocal: string;
+    departureTimeLocal: string;
     arrivalTo: string;
     arrivalAirPort: string;
-    arrivalTime: string;
+    arrivalDateLocal: string;
+    arrivalTimeLocal: string;
 }
 declare class paxModel {
     givenName: string;

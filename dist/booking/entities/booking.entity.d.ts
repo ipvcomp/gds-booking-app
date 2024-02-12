@@ -43,10 +43,12 @@ export declare class createFlightEntity extends Document {
     flightNumber: number;
     departureFrom: string;
     departureAirPort: string;
-    departureTime: string;
+    departureDateLocal: string;
+    departureTimeLocal: string;
     arrivalTo: string;
     arrivalAirPort: string;
-    arrivalTime: string;
+    arrivalDateLocal: string;
+    arrivalTimeLocal: string;
 }
 export declare const createFlightSchema: import("mongoose").Schema<createFlightEntity, import("mongoose").Model<createFlightEntity, any, any, any, Document<unknown, any, createFlightEntity> & createFlightEntity & {
     _id: import("mongoose").Types.ObjectId;
@@ -55,6 +57,7 @@ export declare const createFlightSchema: import("mongoose").Schema<createFlightE
 }>;
 export declare class createBookingEntity extends Document {
     bookingRef: string;
+    PCC: string;
     email: string;
     phone: string;
     pnr: string;

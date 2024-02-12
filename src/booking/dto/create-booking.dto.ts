@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsString, IsNumber, IsDate, IsOptional, IsObject, ArrayMinSize, ArrayMaxSize, IsArray, ValidateNested, IsInt } from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsObject, ArrayMinSize, ArrayMaxSize, IsArray, ValidateNested, IsInt } from 'class-validator';
 
 export class flightDto {
 
@@ -20,9 +20,13 @@ export class flightDto {
   @IsString()
   departureAirPort: string;
 
-  @ApiProperty({default: "2024-04-12T12:40:00"})
+  @ApiProperty({default: "2024-04-12"})
   @IsString()
-  departureTime: string;
+  departureDateLocal: string
+
+  @ApiProperty({default: "12:40"})
+  @IsString()
+  departureTimeLocal: string;
 
   @ApiProperty({default: 'JFK'})
   @IsString()
@@ -32,9 +36,13 @@ export class flightDto {
   @IsString()
   arrivalAirPort: string;
 
-  @ApiProperty({default: "2024-04-12T02:40:00"})
+  @ApiProperty({default: "2024-04-12"})
   @IsString()
-  arrivalTime: string;
+  arrivalDateLocal: string;
+
+  @ApiProperty({default: "02:40"})
+  @IsString()
+  arrivalTimeLocal: string;
 
 }
 

@@ -76,7 +76,11 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], createFlightEntity.prototype, "departureTime", void 0);
+], createFlightEntity.prototype, "departureDateLocal", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], createFlightEntity.prototype, "departureTimeLocal", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
@@ -88,7 +92,11 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], createFlightEntity.prototype, "arrivalTime", void 0);
+], createFlightEntity.prototype, "arrivalDateLocal", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], createFlightEntity.prototype, "arrivalTimeLocal", void 0);
 exports.createFlightEntity = createFlightEntity = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true,
@@ -103,6 +111,10 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], createBookingEntity.prototype, "bookingRef", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], createBookingEntity.prototype, "PCC", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
