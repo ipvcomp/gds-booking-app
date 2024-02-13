@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsString, IsNumber, IsOptional, IsObject, ArrayMinSize, ArrayMaxSize, IsArray, ValidateNested, IsInt } from 'class-validator';
+import { IsString, IsNumber, IsOptional, ArrayMinSize, ArrayMaxSize, IsArray, ValidateNested, IsInt } from 'class-validator';
 
 export class flightDto {
 

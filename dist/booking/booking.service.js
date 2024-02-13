@@ -25,7 +25,6 @@ let BookingService = class BookingService {
     }
     async create(createBookingDto) {
         const flightList = createBookingDto.flightInfo;
-        console.log(flightList);
         const passengerInfo = createBookingDto.passengerInfo;
         const adultList = passengerInfo.adult;
         const childList = passengerInfo.child;

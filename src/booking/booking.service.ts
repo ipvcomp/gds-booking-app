@@ -19,7 +19,6 @@ export class BookingService {
   async create(createBookingDto: CreateBookingDto) {
 
     const flightList = createBookingDto.flightInfo;
-    console.log(flightList);
     const passengerInfo = createBookingDto.passengerInfo;
 
     const adultList =  passengerInfo.adult;
