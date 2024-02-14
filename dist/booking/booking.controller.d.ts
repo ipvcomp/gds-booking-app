@@ -32,6 +32,7 @@ export declare class BookingController {
         _id: import("mongoose").Types.ObjectId;
     }>;
     findAll(): Promise<import("./entities/booking.entity").createBookingEntity[]>;
+    findByPagination(): Promise<import("./entities/booking.entity").createBookingEntity[]>;
     findOneByPnr(pnr: string): Promise<{
         pnrData: {
             _id: any;
