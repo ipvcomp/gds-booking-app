@@ -43,7 +43,7 @@ export class BookingService {
       email: createBookingDto.contactInfo.email,
       phone: createBookingDto.contactInfo.phone,
       pnr: generateRandomString(6),
-      status: 'Hold',
+      status: getRandomStatus(),
       adult: adultList?.length || 1,
       child: childList?.length || 0,
       infant: infantList?.length || 0,
@@ -72,7 +72,7 @@ export class BookingService {
       await this.createFlightEntityModel.create(flightData);
     }
 
-  if(adultList.length > 0){
+  if(adultList?.length > 0){
     for (const adultPax of adultList) {
       const paxData ={
         bookingRef: bookingRef,
@@ -86,7 +86,7 @@ export class BookingService {
     }
   }
 
-  if(childList.length > 0){
+  if(childList?.length > 0){
     for (const childPax of childList) {
       const paxData ={
         bookingRef: bookingRef,
@@ -101,7 +101,7 @@ export class BookingService {
 
   }
 
-  if(infantList.length > 0){
+  if(infantList?.length > 0){
     for (const infantPax of infantList) {
       const paxData ={
         bookingRef: bookingRef,
@@ -129,11 +129,17 @@ export class BookingService {
       return result;
     }
 
+    function getRandomStatus(): string {
+      const statusOptions = ["Hold", "Ticketed", "Expired", "Void", "Cancelled"];
+      const randomIndex = Math.floor(Math.random() * statusOptions.length);
+      return statusOptions[randomIndex];
+  }
+
   }
 
   async findAll() : Promise<createBookingEntity[]> {
     const createBookingEntityDocument = await this.createBookingEntityModel.find();
-    return createBookingEntityDocument;
+    return createBookingEntityDocument.reverse();
   }
 
   async findOneByPnr(pnr : string){

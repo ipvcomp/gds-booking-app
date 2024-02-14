@@ -46,7 +46,7 @@ let BookingService = class BookingService {
             email: createBookingDto.contactInfo.email,
             phone: createBookingDto.contactInfo.phone,
             pnr: generateRandomString(6),
-            status: 'Hold',
+            status: getRandomStatus(),
             adult: adultList?.length || 1,
             child: childList?.length || 0,
             infant: infantList?.length || 0,
@@ -72,7 +72,7 @@ let BookingService = class BookingService {
             };
             await this.createFlightEntityModel.create(flightData);
         }
-        if (adultList.length > 0) {
+        if (adultList?.length > 0) {
             for (const adultPax of adultList) {
                 const paxData = {
                     bookingRef: bookingRef,
@@ -85,7 +85,7 @@ let BookingService = class BookingService {
                 await this.createPaxModelEntityModel.create(paxData);
             }
         }
-        if (childList.length > 0) {
+        if (childList?.length > 0) {
             for (const childPax of childList) {
                 const paxData = {
                     bookingRef: bookingRef,
@@ -98,7 +98,7 @@ let BookingService = class BookingService {
                 await this.createPaxModelEntityModel.create(paxData);
             }
         }
-        if (infantList.length > 0) {
+        if (infantList?.length > 0) {
             for (const infantPax of infantList) {
                 const paxData = {
                     bookingRef: bookingRef,
@@ -121,10 +121,15 @@ let BookingService = class BookingService {
             }
             return result;
         }
+        function getRandomStatus() {
+            const statusOptions = ["Hold", "Ticketed", "Expired", "Void", "Cancelled"];
+            const randomIndex = Math.floor(Math.random() * statusOptions.length);
+            return statusOptions[randomIndex];
+        }
     }
     async findAll() {
         const createBookingEntityDocument = await this.createBookingEntityModel.find();
-        return createBookingEntityDocument;
+        return createBookingEntityDocument.reverse();
     }
     async findOneByPnr(pnr) {
         const bookingEntityDocument = await this.createBookingEntityModel.findOne({ pnr: pnr }, { __v: false });
