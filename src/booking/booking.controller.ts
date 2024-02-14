@@ -16,6 +16,11 @@ export class BookingController {
     return this.bookingService.findAll();
   }
 
+  @Get()
+  findByPagination() {
+    return this.bookingService.findAll();
+  }
+
   @Get(':pnr')
   findOneByPnr(@Param('pnr') pnr: string) {
     return this.bookingService.findOneByPnr(pnr);

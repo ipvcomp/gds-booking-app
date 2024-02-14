@@ -26,6 +26,9 @@ let BookingController = class BookingController {
     findAll() {
         return this.bookingService.findAll();
     }
+    findByPagination() {
+        return this.bookingService.findAll();
+    }
     findOneByPnr(pnr) {
         return this.bookingService.findOneByPnr(pnr);
     }
@@ -44,6 +47,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], BookingController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], BookingController.prototype, "findByPagination", null);
 __decorate([
     (0, common_1.Get)(':pnr'),
     __param(0, (0, common_1.Param)('pnr')),
