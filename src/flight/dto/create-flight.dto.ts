@@ -49,3 +49,17 @@ export class CreateFlightDto {
   @ArrayMaxSize(4)
   segments: SegmentDto[];
 }
+
+export class CreateOfferDto{
+  
+}
+
+export class CreateBookingDto{
+  @ApiProperty()
+  flightData: string
+  @ApiProperty()
+  passengerData: string
+  @ApiProperty()
+  contactData: string
+
+}

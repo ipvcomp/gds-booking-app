@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFlightDto } from './dto/create-flight.dto';
+import { CreateBookingDto, CreateFlightDto, CreateOfferDto } from './dto/create-flight.dto';
 import { UpdateFlightDto } from './dto/update-flight.dto';
 import axios from 'axios';
 const qs = require('qs');
@@ -38,6 +38,7 @@ export class FlightService {
       }
 
   }
+
   async searchFlight(createFlightDto: CreateFlightDto) {
 
     let cabinclass: string = createFlightDto.cabin_class;
@@ -151,6 +152,168 @@ export class FlightService {
 
     const response =  await axios.request(config);
     return response.data;
+  }
+
+  async offerFlight(offerPrice : CreateOfferDto){
+
+
+    const token = await this.generateToken();
+    let data = {
+        "data": {
+            "type": "flight-offers-pricing",
+            "flightOffers": [
+                offerPrice
+            ]
+        }
+    };
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://test.api.amadeus.com/v1/shopping/flight-offers/pricing',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'X-HTTP-Method-Override': 'GET', 
+        'Authorization': `Bearer ${token}`
+      },
+      data : data
+    };
+
+    const response = await axios.request(config)
+    return response.data;
+
+
+  }
+
+  async bookingFlight(bookingDto : CreateBookingDto){
+
+    let data = {
+      "data": {
+        "type": "flight-order",
+        "flightOffers": [
+            
+        ],
+        "travelers": [
+          {
+            "id": "1",
+            "dateOfBirth": "1982-01-16",
+            "name": {
+              "firstName": "JORGE",
+              "lastName": "GONZALES"
+            },
+            "gender": "MALE",
+            "contact": {
+              "emailAddress": "jorge.gonzales833@telefonica.es",
+              "phones": [
+                {
+                  "deviceType": "MOBILE",
+                  "countryCallingCode": "34",
+                  "number": "480080076"
+                }
+              ]
+            },
+            "documents": [
+              {
+                "documentType": "PASSPORT",
+                "birthPlace": "Madrid",
+                "issuanceLocation": "Madrid",
+                "issuanceDate": "2015-04-14",
+                "number": "00000000",
+                "expiryDate": "2025-04-14",
+                "issuanceCountry": "ES",
+                "validityCountry": "ES",
+                "nationality": "ES",
+                "holder": true
+              }
+            ]
+          },
+          {
+            "id": "2",
+            "dateOfBirth": "2012-10-11",
+            "gender": "FEMALE",
+            "contact": {
+              "emailAddress": "jorge.gonzales833@telefonica.es",
+              "phones": [
+                {
+                  "deviceType": "MOBILE",
+                  "countryCallingCode": "34",
+                  "number": "480080076"
+                }
+              ]
+            },
+            "name": {
+              "firstName": "ADRIANA",
+              "lastName": "GONZALES"
+            }
+          }
+        ],
+        "remarks": {
+          "general": [
+            {
+              "subType": "GENERAL_MISCELLANEOUS",
+              "text": "ONLINE BOOKING FROM INCREIBLE VIAJES"
+            }
+          ]
+        },
+        "ticketingAgreement": {
+          "option": "DELAY_TO_CANCEL",
+          "delay": "6D"
+        },
+        "contacts": [
+          {
+            "addresseeName": {
+              "firstName": "PABLO",
+              "lastName": "RODRIGUEZ"
+            },
+            "companyName": "INCREIBLE VIAJES",
+            "purpose": "STANDARD",
+            "phones": [
+              {
+                "deviceType": "LANDLINE",
+                "countryCallingCode": "34",
+                "number": "480080071"
+              },
+              {
+                "deviceType": "MOBILE",
+                "countryCallingCode": "33",
+                "number": "480080072"
+              }
+            ],
+            "emailAddress": "support@increibleviajes.es",
+            "address": {
+              "lines": [
+                "Calle Prado, 16"
+              ],
+              "postalCode": "28014",
+              "cityName": "Madrid",
+              "countryCode": "ES"
+            }
+          }
+        ]
+      }
+    }; 
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://test.api.amadeus.com/v1/booking/flight-orders',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Authorization': 'Bearer WvQvMNI6DWxIZRKp'
+      },
+      data : data
+    };
+    
+    axios.request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    
+
+
   }
 
 }
