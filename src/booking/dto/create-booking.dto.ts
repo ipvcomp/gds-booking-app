@@ -86,10 +86,10 @@ class passengerInfoModel {
 
 export class contactDto{
 
-  @ApiProperty({default: "abc@gmail.com"})
+  @ApiProperty({default: "ipurveydelay5@yahoo.com"})
   email: string;
 
-  @ApiProperty({default: "+4401685370455"})
+  @ApiProperty({default: "+2349167999997"})
   phone: string;
 
 }
