@@ -14,14 +14,20 @@ export class BookingController {
     return this.bookingService.create(createBookingDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.bookingService.findAll();
   }
 
-  @Get()
-  findByPagination() {
-    return this.bookingService.findAll();
+  @Get('amadeus/all')
+  findAllByAmadeus() {
+    return this.bookingService.findAllByAmadeus();
+  }
+
+  @Get('page/:pageNumber')
+  findByPagination(
+    @Param('pageNumber') pageNumber: number){
+    return this.bookingService.findByPagination(pageNumber);
   }
 
   @Get(':pnr')
