@@ -143,6 +143,24 @@ export class BookingService {
     return createBookingEntityDocument.reverse();
   }
 
+  async findByPagination(pageNumber: number){
+    const skipAmount = (pageNumber - 1) * 50;
+
+    const createBookingEntityDocument = await this.createBookingEntityModel
+        .find()
+        .sort({ timestampField: -1 })  // Replace 'timestampField' with the actual field you want to use for sorting
+        .skip(skipAmount)
+        .limit(50)
+        .exec();
+
+    return createBookingEntityDocument;
+  }
+
+  async findAllByAmadeus() : Promise<createBookingEntity[]> {
+    const createBookingEntityDocument = await this.createBookingEntityModel.find({system: 'amadeus'}, { __v: false});
+    return createBookingEntityDocument.reverse();
+  }
+
   async findOneByPnr(pnr : string){
     const bookingEntityDocument = await this.createBookingEntityModel.findOne({pnr: pnr}, { __v: false});
     const passengerEntityDocument = await this.createPaxModelEntityModel.find({bookingRef: bookingEntityDocument.bookingRef}, { bookingRef: false, __v: false, _id: false, createdAt: false, updatedAt: false});
@@ -169,6 +187,7 @@ export class BookingService {
 
     return bookingData;
   }
+
 
   async saveData(bookingDto : any, responseData : any) {
 
