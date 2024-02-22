@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { createPaxEntity, createFlightEntity, createBookingEntity } from './entities/booking.entity';
+import { response } from 'express';
 
 
 @Injectable()
@@ -167,6 +168,124 @@ export class BookingService {
     };
 
     return bookingData;
+  }
+
+  async saveData(bookingDto : any, responseData : any) {
+
+    const flightList = responseData.data?.flightOffers[0]?.itineraries;
+    const passengerInfo = bookingDto.passengerInfo;
+
+    const adultList =  passengerInfo.adult;
+    const childList =  passengerInfo.child;
+    const infantList =  passengerInfo.infant;
+
+    const lastBookingRef = await this.createBookingEntityModel
+      .findOne({}, { bookingRef: true, _id: false})
+      .sort({ createdAt: -1 })
+      .limit(1);
+    
+      let bookingRef: string =  '';
+      if(lastBookingRef){
+        bookingRef = `B${parseInt(lastBookingRef?.bookingRef.replace('B', ''), 10) + 1}`;
+      }else{
+        bookingRef = 'B1000';
+      }
+
+    const bookingData = {
+      bookingRef: bookingRef,
+      PCC: '0SK0',
+      system: 'amadeus',
+      email: bookingDto?.contactInfo?.email,
+      phone: bookingDto?.contactInfo?.phone,
+      pnr: responseData?.data?.associatedRecords[0]?.reference,
+      status: 'Hold',
+      adult: adultList?.length || 1,
+      child: childList?.length || 0,
+      infant: infantList?.length || 0,
+      flightDate: (flightList[0]?.segments[0]?.departure?.at).slice(0, 10),
+      buId: responseData?.data?.id,
+      officeId: responseData.data?.queuingOfficeId,
+
+    };
+
+    const createBookingEntityDocument = await this.createBookingEntityModel.create(bookingData);
+
+    let i: number = 0;
+    for (const flight of flightList) {
+      console.log(flight);
+      for (const segments of flight['segments']) {
+        i++;
+        const flightData = {
+          bookingRef: bookingRef,
+          legId: i,
+          carrierCode: segments?.carrierCode,
+          flightNumber: segments?.number,
+          departureFrom: segments?.departure?.iataCode,
+          departureAirPort: segments?.departure?.iataCode,
+          departureDateLocal: (segments?.departure?.at).slice(0, 10),
+          departureTimeLocal: (segments?.departure?.at).slice(11, 16),
+          arrivalTo: segments?.arrival?.iataCode,
+          arrivalAirPort: segments?.arrival?.iataCode,
+          arrivalDateLocal: (segments?.arrival?.at).slice(0, 10),
+          arrivalTimeLocal: (segments?.arrival?.at).slice(11, 16),
+        };
+        await this.createFlightEntityModel.create(flightData);
+      }
+    }
+
+    if(adultList?.length > 0){
+      for (const adultPax of adultList) {
+        const paxData ={
+          bookingRef: bookingRef,
+          givenName: adultPax.givenName,
+          surName: adultPax.surName,
+          gender: adultPax.gender,
+          dob: adultPax.dob,
+          type : 'ADT'
+        };
+        await this.createPaxModelEntityModel.create(paxData);
+      }
+    }
+
+    if(childList?.length > 0){
+      for (const childPax of childList) {
+        const paxData ={
+          bookingRef: bookingRef,
+          givenName: childPax.givenName,
+          surName: childPax.surName,
+          gender: childPax.gender,
+          dob: childPax.dob,
+          type : 'CNN'
+        };
+        await this.createPaxModelEntityModel.create(paxData);
+      }
+
+    }
+
+    if(infantList?.length > 0){
+      for (const infantPax of infantList) {
+        const paxData ={
+          bookingRef: bookingRef,
+          givenName: infantPax.givenName,
+          surName: infantPax.surName,
+          gender: infantPax.gender,
+          dob: infantPax.dob,
+          type : 'INF'
+        };
+        await this.createPaxModelEntityModel.create(paxData);
+      }
+    }
+
+    return createBookingEntityDocument; 
+
+  }
+
+  async checkBookingId(bookingRef: string){
+    const bookingEntityDocument = await this.createBookingEntityModel.findOne({bookingRef: bookingRef}, { __v: false});
+    if(!bookingEntityDocument){
+      throw new NotFoundException('Agent not found');
+    }
+    return bookingEntityDocument;
   }
 
 }

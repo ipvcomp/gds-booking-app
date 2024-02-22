@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBookingDto, CreateFlightDto, CreateOfferDto } from './dto/create-flight.dto';
-import { UpdateFlightDto } from './dto/update-flight.dto';
+import { createFlightBookingDto, createFlightDto, createOfferDto } from './dto/create-flight.dto';
 import axios from 'axios';
+import { error } from 'console';
+import { BookingService } from 'src/booking/booking.service';
 const qs = require('qs');
 
 @Injectable()
 export class FlightService {
+
+  constructor(
+    private readonly bookingService: BookingService
+  ){}
 
   async generateToken(){
     let data = qs.stringify({
@@ -39,7 +44,7 @@ export class FlightService {
 
   }
 
-  async searchFlight(createFlightDto: CreateFlightDto) {
+  async searchFlight(createFlightDto: createFlightDto) {
 
     let cabinclass: string = createFlightDto.cabin_class;
     let requestSegments = [];
@@ -154,8 +159,7 @@ export class FlightService {
     return response.data;
   }
 
-  async offerFlight(offerPrice : CreateOfferDto){
-
+  async offerFlight(offerPrice : createOfferDto){
 
     const token = await this.generateToken();
     let data = {
@@ -185,68 +189,139 @@ export class FlightService {
 
   }
 
-  async bookingFlight(bookingDto : CreateBookingDto){
+  async bookingFlight(bookingDto : createFlightBookingDto){
 
-    let data = {
-      "data": {
-        "type": "flight-order",
-        "flightOffers": [
-            
-        ],
-        "travelers": [
-          {
-            "id": "1",
-            "dateOfBirth": "1982-01-16",
-            "name": {
-              "firstName": "JORGE",
-              "lastName": "GONZALES"
-            },
-            "gender": "MALE",
-            "contact": {
-              "emailAddress": "jorge.gonzales833@telefonica.es",
-              "phones": [
-                {
-                  "deviceType": "MOBILE",
-                  "countryCallingCode": "34",
-                  "number": "480080076"
-                }
-              ]
-            },
-            "documents": [
+    const flightInfo = bookingDto.flightInfo;
+    const travellerInfo = bookingDto.passengerInfo;
+    const contactInfo = bookingDto.contactInfo;
+
+    const travellerList= [];
+    let count = 0;
+    if(travellerInfo.adult.length > 0){
+      for(const adults of travellerInfo.adult){
+        count++;
+        const singleTraveller = {
+          "id": count,
+          "dateOfBirth": adults.dob,
+          "name": {
+            "firstName": adults.givenName.toUpperCase(),
+            "lastName": adults.surName.toUpperCase()
+          },
+          "gender": adults.gender.toUpperCase(),
+          "contact": {
+            "emailAddress": contactInfo.email,
+            "phones": [
               {
-                "documentType": "PASSPORT",
-                "birthPlace": "Madrid",
-                "issuanceLocation": "Madrid",
-                "issuanceDate": "2015-04-14",
-                "number": "00000000",
-                "expiryDate": "2025-04-14",
-                "issuanceCountry": "ES",
-                "validityCountry": "ES",
-                "nationality": "ES",
-                "holder": true
+                "deviceType": "MOBILE",
+                "countryCallingCode": "34",
+                "number": "480080076"
               }
             ]
           },
-          {
-            "id": "2",
-            "dateOfBirth": "2012-10-11",
-            "gender": "FEMALE",
-            "contact": {
-              "emailAddress": "jorge.gonzales833@telefonica.es",
-              "phones": [
-                {
-                  "deviceType": "MOBILE",
-                  "countryCallingCode": "34",
-                  "number": "480080076"
-                }
-              ]
-            },
-            "name": {
-              "firstName": "ADRIANA",
-              "lastName": "GONZALES"
+          "documents": [
+            {
+              "documentType": "PASSPORT",
+              "birthPlace": "Madrid",
+              "issuanceLocation": "Madrid",
+              "number": adults.documentNumber.toUpperCase(),
+              "expiryDate": adults.documentExpireDate,
+              "issuanceCountry": adults.nationality.toUpperCase(),
+              "validityCountry": adults.nationality.toUpperCase(),
+              "nationality": adults.nationality.toUpperCase(),
+              "holder": true
             }
-          }
-        ],
+          ]
+        };
+
+        travellerList.push(singleTraveller);
+      }
+    }
+
+    if(travellerInfo.child.length > 0){
+      for(const childs of travellerInfo.child){
+        count++;
+        const singleTraveller = {
+          "id": count,
+          "dateOfBirth": childs.dob,
+          "name": {
+            "firstName": childs.givenName.toUpperCase(),
+            "lastName": childs.surName.toUpperCase()
+          },
+          "gender": childs.gender.toUpperCase(),
+          "contact": {
+            "emailAddress": contactInfo.email.toUpperCase(),
+            "phones": [
+              {
+                "deviceType": "MOBILE",
+                "countryCallingCode": "34",
+                "number": "480080076"
+              }
+            ]
+          },
+          "documents": [
+            {
+              "documentType": "PASSPORT",
+              "birthPlace": "Madrid",
+              "issuanceLocation": "Madrid",
+              "number": childs.documentNumber.toUpperCase(),
+              "expiryDate": childs.documentExpireDate,
+              "issuanceCountry": childs.nationality.toUpperCase(),
+              "validityCountry": childs.nationality.toUpperCase(),
+              "nationality": childs.nationality.toUpperCase(),
+              "holder": true
+            }
+          ]
+        };
+
+        travellerList.push(singleTraveller);
+      }
+    }
+
+    if(travellerInfo.infant.length > 0){
+      for(const infants of travellerInfo.infant){
+        count++;
+        const singleTraveller = {
+          "id": count,
+          "dateOfBirth": infants.dob,
+          "name": {
+            "firstName": infants.givenName.toUpperCase(),
+            "lastName": infants.surName.toUpperCase()
+          },
+          "gender": infants.gender.toUpperCase(),
+          "contact": {
+            "emailAddress": contactInfo.email.toUpperCase(),
+            "phones": [
+              {
+                "deviceType": "MOBILE",
+                "countryCallingCode": "34",
+                "number": "480080076"
+              }
+            ]
+          },
+          "documents": [
+            {
+              "documentType": "PASSPORT",
+              "birthPlace": "Madrid",
+              "issuanceLocation": "Madrid",
+              "number": infants.documentNumber.toUpperCase(),
+              "expiryDate": infants.documentExpireDate,
+              "issuanceCountry": infants.nationality.toUpperCase(),
+              "validityCountry": infants.nationality.toUpperCase(),
+              "nationality": infants.nationality.toUpperCase(),
+              "holder": true
+            }
+          ]
+        };
+
+        travellerList.push(singleTraveller);
+      }
+    }
+
+    let data = JSON.stringify({
+      "data": {
+        "type": "flight-order",
+        "flightOffers": [flightInfo],
+        "travelers": travellerList,
         "remarks": {
           "general": [
             {
@@ -262,17 +337,12 @@ export class FlightService {
         "contacts": [
           {
             "addresseeName": {
-              "firstName": "PABLO",
-              "lastName": "RODRIGUEZ"
+              "firstName": "ABDUL",
+              "lastName": "ISHIAQ"
             },
-            "companyName": "INCREIBLE VIAJES",
+            "companyName": "I-PURVEY",
             "purpose": "STANDARD",
             "phones": [
-              {
-                "deviceType": "LANDLINE",
-                "countryCallingCode": "34",
-                "number": "480080071"
-              },
               {
                 "deviceType": "MOBILE",
                 "countryCallingCode": "33",
@@ -285,35 +355,65 @@ export class FlightService {
                 "Calle Prado, 16"
               ],
               "postalCode": "28014",
-              "cityName": "Madrid",
-              "countryCode": "ES"
+              "cityName": "LONDON",
+              "countryCode": "GB"
             }
           }
         ]
       }
-    }; 
+    });
 
+    const token = await this.generateToken();
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
       url: 'https://test.api.amadeus.com/v1/booking/flight-orders',
       headers: { 
         'Content-Type': 'application/json', 
-        'Authorization': 'Bearer WvQvMNI6DWxIZRKp'
+        'Authorization': `Bearer ${token}`
       },
       data : data
     };
-    
-    axios.request(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch((error) => {
+
+    try{
+      const reponses = await axios.request(config)
+      const responseData =  reponses.data;
+
+      //return responseData;
+
+      if('id' in responseData['data']){
+        return this.bookingService.saveData(bookingDto, responseData);
+        
+      }else{
+        throw new Error('Booking Failed');
+      }
+    }catch(error){
       console.log(error);
-    });
+    }
+
     
+  }
 
+  async  getBooking(bookingRef : string){
 
+    const isBookingValid = await this.bookingService.checkBookingId(bookingRef);
+    const bookingId =  isBookingValid?.buId;
+    const token =  await this.generateToken();
+
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `https://test.api.amadeus.com/v1/booking/flight-orders/${bookingId}`,
+      headers: { 'Authorization': `Bearer ${token}`}
+    };
+
+    try{
+      const response = await axios.request(config);
+      return response.data;
+    }catch(error){
+      console.log(error);
+    }
+    
   }
 
 }

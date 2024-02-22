@@ -88,6 +88,12 @@ export class createBookingEntity extends Document {
   bookingRef: string;
 
   @Prop({ required: true })
+  system: string;
+
+  @Prop({ required: true })
+  officeId: string;
+
+  @Prop({ required: true })
   PCC: string;
 
   @Prop({ required: true })
@@ -113,6 +119,9 @@ export class createBookingEntity extends Document {
 
   @Prop({ required: true })
   flightDate: string;
+
+  @Prop({ required: true })
+  buId: string;
 
 }
 
